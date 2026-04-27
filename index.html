@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasca d'Aldeia - O Sabor Autêntico da Aldeia</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --terracotta: #8B3A2A;
+            --cream: #F5ECD7;
+            --olive: #5C6B3A;
+            --espresso: #2C1A0E;
+            --white: #FFFFFF;
+            --black: #000000;
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+            --transition: all 0.3s ease;
+        }
+
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--cream);
+            color: var(--espresso);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        ul { list-style: none; }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        button { cursor: pointer; border: none; outline: none; transition: var(--transition); font-family: var(--font-body); }
+        img { max-width: 100%; display: block; }
+
+        /* Helpers */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        .text-center { text-align: center; }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: var(--terracotta);
+            color: var(--cream);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--espresso);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--terracotta);
+            color: var(--terracotta);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--terracotta);
+            color: var(--cream);
+        }
+
+        /* Azulejo Divider */
+        .azulejo-divider {
+            height: 40px;
+            width: 100%;
+            background-image: radial-gradient(circle at 50% 50%, transparent 40%, var(--terracotta) 41%, var(--terracotta) 49%, transparent 50%),
+                              linear-gradient(45deg, transparent 48%, var(--terracotta) 49%, var(--terracotta) 51%, transparent 52%),
+                              linear-gradient(-45deg, transparent 48%, var(--terracotta) 49%, var(--terracotta) 51%, transparent 52%);
+            background-size: 40px 40px;
+            background-repeat: repeat-x;
+            opacity: 0.15;
+            margin: 40px 0;
+        }
+
+        /* Navbar */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background-color: var(--espresso);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 10px 0;
+        }
+
+        header.scrolled .nav-link { color: var(--cream); }
+        header.scrolled .logo { color: var(--terracotta); }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            transition: var(--transition);
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--terracotta);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            color: var(--espresso);
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--terracotta);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after { width: 100%; }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            background: none;
+            border: none;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--terracotta);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        /* Hero */
+        #hero {
+            height: 100vh;
+            background: linear-gradient(rgba(44, 26, 14, 0.6), rgba(44, 26, 14, 0.6)), url('https://picsum.photos/id/192/1920/1080') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cream);
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            font-style: italic;
+            animation: fadeInUp 1s ease 0.3s forwards;
+            opacity: 0;
+        }
+
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            animation: fadeInUp 1s ease 0.6s forwards;
+            opacity: 0;
+        }
+
+        /* About */
+        #about {
+            background-color: var(--white);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.8rem;
+            color: var(--terracotta);
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .about-image img {
+            border-radius: 8px;
+            box-shadow: 20px 20px 0 var(--olive);
+        }
+
+        /* Menu */
+        #menu {
+            background-color: var(--cream);
+        }
+
+        .menu-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: none;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--espresso);
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: var(--terracotta);
+            border-bottom: 2px solid var(--terracotta);
+        }
+
+        .menu-content {
+            display: none;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .menu-content.active {
+            display: grid;
+        }
+
+        .menu-item {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-left: 4px solid var(--olive);
+            transition: var(--transition);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .menu-item .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .menu-item h4 {
+            font-size: 1.3rem;
+            color: var(--espresso);
+        }
+
+        .menu-item .price {
+            color: var(--terracotta);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .menu-item p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        /* Gallery */
+        #gallery {
+            background-color: var(--white);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            aspect-ratio: 4/3;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(0.3) saturate(0.8) contrast(1.1);
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+            filter: none;
+        }
+
+        /* Hours & Location */
+        #location {
+            background-color: var(--cream);
+        }
+
+        .location-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        .hours-table tr {
+            border-bottom: 1px solid rgba(44, 26, 14, 0.1);
+        }
+
+        .hours-table td {
+            padding: 15px 0;
+        }
+
+        .hours-table td:last-child {
+            text-align: right;
+            font-weight: 700;
+        }
+
+        .map-wrapper {
+            height: 450px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .map-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Testimonials */
+        #testimonials {
+            background-color: var(--espresso);
+            color: var(--cream);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .testimonial-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 8px;
+            border-top: 3px solid var(--terracotta);
+        }
+
+        .stars {
+            color: #FFD700;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        /* Contact */
+        #contact {
+            background-color: var(--white);
+        }
+
+        .contact-form {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--cream);
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full {
+            grid-column: span 2;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--terracotta);
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(44, 26, 14, 0.2);
+            background-color: var(--white);
+            border-radius: 4px;
+            font-family: var(--font-body);
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--espresso);
+            color: var(--cream);
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .social-links a {
+            font-size: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .social-links a:hover {
+            opacity: 1;
+            color: var(--terracotta);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            opacity: 0.5;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 991px) {
+            .hero-content h1 { font-size: 3.5rem; }
+            .about-grid, .location-grid { grid-template-columns: 1fr; }
+            .about-image { order: -1; }
+            .nav-links {
+                position: fixed;
+                top: -100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--espresso);
+                flex-direction: column;
+                align-items: center;
+                padding: 40px 0;
+                transition: 0.5s;
+            }
+            .nav-links.active { top: 0; }
+            .nav-link { color: var(--cream); }
+            .mobile-menu-btn { display: flex; }
+            .mobile-menu-btn.active span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+            .mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
+            .mobile-menu-btn.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.8rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full { grid-column: span 1; }
+            .section-padding { padding: 60px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Tasca d'Aldeia</a>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#hero" class="nav-link">Início</a></li>
+                    <li><a href="#about" class="nav-link">Sobre</a></li>
+                    <li><a href="#menu" class="nav-link">Menu</a></li>
+                    <li><a href="#gallery" class="nav-link">Galeria</a></li>
+                    <li><a href="#location" class="nav-link">Contacto</a></li>
+                    <li><a href="#contact" class="btn btn-primary">Reservar</a></li>
+                </ul>
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="hero-content">
+            <h1>Tasca d'Aldeia</h1>
+            <p>O sabor autêntico da aldeia / The authentic taste of the village</p>
+            <div class="hero-btns">
+                <a href="#menu" class="btn btn-primary">Ver Menu</a>
+                <a href="#contact" class="btn btn-outline" style="border-color: var(--cream); color: var(--cream); background: rgba(0,0,0,0.2);">Reservar Mesa</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section-padding">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text scroll-reveal">
+                    <h2>Tradição à sua Mesa</h2>
+                    <p>Situada no coração de Travanca de Bodiosa, a <strong>Tasca d'Aldeia</strong> é mais do que um simples bar; é um ponto de encontro onde a hospitalidade portuguesa ganha vida.</p>
+                    <p>Nascida do desejo de preservar os sabores autênticos da nossa terra, oferecemos uma experiência rústica e acolhedora. Aqui, o tempo abranda, as conversas fluem e cada petisco conta uma história da nossa aldeia.</p>
+                    <div class="azulejo-divider"></div>
+                    <p>Seja para um café rápido, uma cerveja gelada ao fim da tarde ou um almoço tardio entre amigos, encontrará sempre um sorriso pronto a recebê-lo.</p>
+                </div>
+                <div class="about-image scroll-reveal">
+                    <img src="https://picsum.photos/id/225/600/800" alt="Interior da Tasca">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="section-padding">
+        <div class="container">
+            <div class="text-center mb-50 scroll-reveal">
+                <h2 style="font-size: 3rem; margin-bottom: 20px; color: var(--terracotta);">O Nosso Menu</h2>
+                <p>Ingredientes locais, receitas de sempre.</p>
+            </div>
+
+            <div class="menu-tabs scroll-reveal">
+                <button class="tab-btn active" data-tab="cafes">Cafés & Bebidas</button>
+                <button class="tab-btn" data-tab="cervejas">Cervejas</button>
+                <button class="tab-btn" data-tab="petiscos">Petiscos</button>
+                <button class="tab-btn" data-tab="refeicoes">Refeições</button>
+            </div>
+
+            <!-- Cafes -->
+            <div id="cafes" class="menu-content active scroll-reveal">
+                <div class="menu-item">
+                    <div class="item-header"><h4>Café Expresso</h4><span class="price">€0.80</span></div>
+                    <p>O clássico aroma português para começar bem o dia.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header"><h4>Galão</h4><span class="price">€1.30</span></div>
+                    <p>Café com muito leite, servido em copo de vidro alto.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header"><h4>Meia de Leite</h4><span class="price">€1.20</span></div>
+                    <p>Proporção perfeita entre café e leite em chávena grande.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header"><h4>Chá de Ervas</h4><span class="price">€1.00</span></div>
+                    <p>Seleção de infusões naturais da região.</p>
+                </div>
+            </div>
+
+            <!-- Cervejas -->
+            <div id="cervejas" class="menu-content scroll-reveal">
+                <div class="menu-item">
+                    <div class="item-header"><h4>Super Bock (Imperial)</h4><span class="price">€1.20</span></div>
+                    <p>A frescura inconfundível tirada na pressão.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header"><h4>Sagres (Fine)</h4><span class="price">€1.20</span></div>
+                    <p>A alma da cerveja portuguesa, leve e refrescante.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header"><h4>Cristal</h4><span class="price">€1.50</span></div>
+                    <p>Uma escolha clássica e encorpada de 33cl.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header"><h4>Bohemia Original</h4><span class="price">€2.00</span></div>
+                    <p>Cerveja ruiva com notas de malte tostado.</p>
+                </div>
+            </div>
+
+            <!-- Petiscos -->
+            <div id="petiscos" class="menu-content scroll-reveal">
+                <div class="menu-item">
+                    <div class="item-header"><h4>Moelas Estufadas</h4><span class="price">€4.50</span></div>
+                    <p>Lentas no molho para picar com pão artesanal.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header"><h4>Chouriço Assado</h4><span class="price">€6.00</span></div>
+                    <p>Assado na mesa na canoa de barro tradicional.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header"><h4>Tábua de Queijos</h4><span class="price">€8.50</span></div>
+                    <p>Seleção de queijos da Serra com doce de abóbora.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header"><h4>Pastéis de Bacalhau</h4><span class="price">€3.00</span></div>
+                    <p>Duo de pastéis crocantes feitos na casa.</p>
+                </div>
+            </div>
+
+            <!-- Refeições -->
+            <div id="refeicoes" class="menu-content scroll-reveal">
+                <div class="menu-item">
+                    <div class="item-header"><h4>Prato do Dia</h4><span class="price">€8.00</span></div>
+                    <p>Comida de conforto feita diariamente. Consulte o quadro!</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header"><h4>Bacalhau à Tasca</h4><span class="price">€12.50</span></div>
+                    <p>Frito com batata a murro e muita cebolada.</p>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header"><h4>Prego no Prato</h4><span class="price">€9.00</span></div>
+                    <p>Bife tenro com ovo a cavalo e batata frita caseira.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="section-padding">
+        <div class="container">
+            <div class="text-center mb-50 scroll-reveal">
+                <h2 style="font-size: 3rem; margin-bottom: 20px; color: var(--terracotta);">Galeria</h2>
+                <p>Momentos e pormenores da nossa casa.</p>
+            </div>
+            <div class="gallery-grid scroll-reveal">
+                <div class="gallery-item"><img src="https://picsum.photos/id/431/600/450" alt="Tasca Item 1"></div>
+                <div class="gallery-item"><img src="https://picsum.photos/id/429/600/450" alt="Tasca Item 2"></div>
+                <div class="gallery-item"><img src="https://picsum.photos/id/312/600/450" alt="Tasca Item 3"></div>
+                <div class="gallery-item"><img src="https://picsum.photos/id/42/600/450" alt="Tasca Item 4"></div>
+                <div class="gallery-item"><img src="https://picsum.photos/id/163/600/450" alt="Tasca Item 5"></div>
+                <div class="gallery-item"><img src="https://picsum.photos/id/511/600/450" alt="Tasca Item 6"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hours & Location -->
+    <section id="location" class="section-padding">
+        <div class="container">
+            <div class="location-grid">
+                <div class="scroll-reveal">
+                    <h2 style="color: var(--terracotta); margin-bottom: 20px;">Onde Estamos</h2>
+                    <p>Avenida Principal nº60,<br>3515-682 Travanca de Bodiosa, Viseu</p>
+                    <p style="margin-top: 10px;"><strong>Telemóvel:</strong> +351 232 456 789</p>
+                    
+                    <table class="hours-table">
+                        <tr><td>Segunda-feira</td><td>08:00 - 23:00</td></tr>
+                        <tr><td>Terça-feira</td><td>08:00 - 23:00</td></tr>
+                        <tr><td>Quarta-feira</td><td>Folga</td></tr>
+                        <tr><td>Quinta-feira</td><td>08:00 - 23:00</td></tr>
+                        <tr><td>Sexta-feira</td><td>08:00 - 00:00</td></tr>
+                        <tr><td>Sábado</td><td>09:00 - 01:00</td></tr>
+                        <tr><td>Domingo</td><td>09:00 - 22:00</td></tr>
+                    </table>
+                </div>
+                <div class="scroll-reveal">
+                    <div class="map-wrapper">
+                        <!-- Viseu area map iframe -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12113.805844855474!2d-7.96562095!3d40.7180108!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd2336338b5840bb%3A0xe67ef848366487e!2sAvenida%20Principal%20n%C2%BA60%20Travanca%20de%20Bodiosa%203515-682%20Viseu!5e0!3m2!1spt!2spt!4v1715000000000" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section-padding">
+        <div class="container">
+            <div class="text-center mb-50 scroll-reveal">
+                <h2 style="font-size: 3rem; margin-bottom: 20px; color: var(--cream);">O que dizem de nós</h2>
+            </div>
+            <div class="testimonial-grid scroll-reveal">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"As melhores moelas que já comi em Viseu! O ambiente é super acolhedor e fomos recebidos como se fôssemos da família."</p>
+                    <p class="testimonial-author">— António Silva</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"Um tesouro escondido. Cerveja sempre gelada e o chouriço assado é de comer e chorar por mais. Recomendo vivamente."</p>
+                    <p class="testimonial-author">— Maria Ferreira</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"Autenticidade pura. É o sítio ideal para fugir da confusão da cidade e aproveitar o verdadeiro espírito da aldeia."</p>
+                    <p class="testimonial-author">— João Pereira</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-padding">
+        <div class="container">
+            <div class="text-center mb-50 scroll-reveal">
+                <h2 style="font-size: 3rem; margin-bottom: 20px; color: var(--terracotta);">Reserva de Mesa</h2>
+                <p>Garanta o seu lugar na nossa tasca.</p>
+            </div>
+            <div class="contact-form scroll-reveal">
+                <form id="reservation-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="name">Nome Completo</label>
+                            <input type="text" id="name" name="name" required placeholder="Seu nome">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail (opcional)</label>
+                            <input type="email" id="email" name="email" placeholder="seu@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Data</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="time">Hora</label>
+                            <input type="time" id="time" name="time" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="people">Número de Pessoas</label>
+                            <select id="people" name="people">
+                                <option value="1">1 Pessoa</option>
+                                <option value="2" selected>2 Pessoas</option>
+                                <option value="3">3 Pessoas</option>
+                                <option value="4">4 Pessoas</option>
+                                <option value="5">5 Pessoas</option>
+                                <option value="6+">6 ou mais</option>
+                            </select>
+                        </div>
+                        <div class="form-group full">
+                            <label for="message">Observações / Pedidos Especiais</label>
+                            <textarea id="message" name="message" placeholder="Diga-nos se é um aniversário ou se tem restrições alimentares..."></textarea>
+                        </div>
+                        <div class="form-group full text-center">
+                            <button type="submit" class="btn btn-primary" id="submit-btn" style="width: 100%;">Confirmar Reserva</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h2 style="color: var(--terracotta); margin-bottom: 20px;">Tasca d'Aldeia</h2>
+            <div class="social-links">
+                <a href="#">FB</a>
+                <a href="#">IG</a>
+            </div>
+            <p class="copyright">© 2025 Tasca d'Aldeia – Travanca de Bodiosa, Viseu. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sticky Header & Active Nav
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        mobileBtn.addEventListener('click', () => {
+            mobileBtn.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu on link click
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileBtn.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Menu Tabs
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const menuContents = document.querySelectorAll('.menu-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.getAttribute('data-tab');
+
+                tabBtns.forEach(b => b.classList.remove('active'));
+                menuContents.forEach(c => c.classList.remove('active'));
+
+                btn.classList.add('active');
+                document.getElementById(target).classList.add('active');
+            });
+        });
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.scroll-reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Form Submission
+        const form = document.getElementById('reservation-form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = 'A enviar...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                alert('Obrigado! A sua reserva foi pré-confirmada. Entraremos em contacto brevemente.');
+                form.reset();
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
+
